@@ -26,6 +26,23 @@ AWS 클라우드 서비스와 AI 이미지 분석 기능을 활용하여 실제 
 
 ---
 
+
+##디렉토리 구조
+
+frontend/  : 웹 프론트엔드 페이지
+backend/   : Flask 백엔드 서버
+aws/       : Lambda 및 AWS 관련 코드
+docker/    : Docker 배포 환경
+docs/      : 제안서 및 보고서
+
+---
+
+##팀 역할분담
+
+김도완-Frontend/UI 개발
+박영주-Backend 서버 및 추천 로직 개발
+임나빈-AWS 클라우드 환경 구축 및 Docker 배포
+
 ## 시스템 구조
 
 ```text
@@ -45,21 +62,4 @@ RDS 저장 및 추천 결과 생성
 ↓
 웹페이지 출력
 
----
-```
 
-##디렉토리 구조
-
-frontend/  : 웹 프론트엔드 페이지
-backend/   : Flask 백엔드 서버
-aws/       : Lambda 및 AWS 관련 코드
-docker/    : Docker 배포 환경
-docs/      : 제안서 및 보고서
-
----
-
-##팀 역할분담
-
-김도완-Frontend/UI 개발
-박영주-Backend 서버 및 추천 로직 개발
-임나빈-AWS 클라우드 환경 구축 및 Docker 배포
