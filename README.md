@@ -1,6 +1,8 @@
 # aws-food-recommend-service
 Cloud-based food recommendation web service using AWS Rekognition
 
+![메인페이지](docs/test_html.png)
+
 # AWS Rekognition 기반 음식 사진 맛집 추천 서비스
 
 사용자가 음식 사진을 업로드하면 AWS Rekognition이 이미지를 분석하여 음식 종류 및 관련 태그를 추출하고, 이를 기반으로 맛집 추천 결과를 제공하는 클라우드 기반 웹 서비스 프로젝트입니다.
