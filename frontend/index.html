@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cloud Travel Recommendation</title>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+    }
+
+    body {
+        background-color: #f4f7fb;
+        color: #333;
+    }
+
+    header {
+        background: linear-gradient(135deg, #4facfe, #00c6fb);
+        color: white;
+        padding: 20px 60px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    header h1 {
+        font-size: 28px;
+    }
+
+    nav a {
+        color: white;
+        text-decoration: none;
+        margin-left: 20px;
+        font-weight: bold;
+    }
+
+    .hero {
+        height: 450px;
+        background-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e');
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        color: white;
+        position: relative;
+    }
+
+    .hero::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: rgba(0,0,0,0.4);
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 1;
+    }
+
+    .hero h2 {
+        font-size: 48px;
+        margin-bottom: 15px;
+    }
+
+    .hero p {
+        font-size: 20px;
+        margin-bottom: 25px;
+    }
+
+    .upload-btn {
+        padding: 14px 28px;
+        border: none;
+        border-radius: 8px;
+        background-color: #ff9800;
+        color: white;
+        font-size: 18px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .upload-btn:hover {
+        background-color: #e68900;
+    }
+
+    .section {
+        padding: 60px;
+    }
+
+    .section-title {
+        text-align: center;
+        font-size: 32px;
+        margin-bottom: 40px;
+        color: #222;
+    }
+
+    .card-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 25px;
+    }
+
+    .card {
+        background-color: white;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        transition: 0.3s;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+    }
+
+    .card img {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+    }
+
+    .card-content {
+        padding: 20px;
+    }
+
+    .card-content h3 {
+        margin-bottom: 10px;
+    }
+
+    .tag {
+        display: inline-block;
+        background-color: #e3f2fd;
+        color: #1976d2;
+        padding: 5px 10px;
+        border-radius: 20px;
+        margin-top: 10px;
+        font-size: 13px;
+    }
+
+    .analyze-box {
+        background-color: white;
+        border-radius: 16px;
+        padding: 40px;
+        margin-top: 50px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        text-align: center;
+    }
+
+    .analyze-box h3 {
+        margin-bottom: 20px;
+        font-size: 28px;
+    }
+
+    .result-tags {
+        margin-top: 20px;
+    }
+
+    .result-tags span {
+        display: inline-block;
+        background-color: #4facfe;
+        color: white;
+        padding: 8px 14px;
+        border-radius: 20px;
+        margin: 5px;
+    }
+
+    footer {
+        background-color: #1f2937;
+        color: white;
+        text-align: center;
+        padding: 25px;
+        margin-top: 50px;
+    }
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>Cloud Travel AI</h1>
+
+    <nav>
+        <a href="#">Home</a>
+        <a href="#">Recommendation</a>
+        <a href="#">Upload</a>
+        <a href="#">My Page</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <div class="hero-content">
+        <h2>AI 기반 관광지 추천 서비스</h2>
+        <p>
+            여행 사진을 업로드하면 AWS Rekognition이 이미지를 분석하여<br>
+            맞춤 관광지를 추천합니다.
+        </p>
+
+        <button class="upload-btn">
+            사진 업로드 시작하기
+        </button>
+    </div>
+</section>
+
+<section class="section">
+
+    <h2 class="section-title">추천 관광지</h2>
+
+    <div class="card-container">
+
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e">
+
+            <div class="card-content">
+                <h3>부산 해운대</h3>
+                <p>
+                    바다와 야경을 즐길 수 있는 대표 관광지
+                </p>
+
+                <div class="tag">Beach</div>
+                <div class="tag">Ocean</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470">
+
+            <div class="card-content">
+                <h3>강원도 설악산</h3>
+                <p>
+                    자연과 산 풍경을 즐길 수 있는 관광 명소
+                </p>
+
+                <div class="tag">Mountain</div>
+                <div class="tag">Nature</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1494526585095-c41746248156">
+
+            <div class="card-content">
+                <h3>서울 북촌한옥마을</h3>
+                <p>
+                    전통 문화와 감성을 느낄 수 있는 장소
+                </p>
+
+                <div class="tag">City</div>
+                <div class="tag">Culture</div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="analyze-box">
+
+        <h3>AWS Rekognition 분석 결과 예시</h3>
+
+        <p>
+            업로드한 이미지에서 AI가 자동으로 태그를 추출합니다.
+        </p>
+
+        <div class="result-tags">
+            <span>Beach</span>
+            <span>Ocean</span>
+            <span>Sunset</span>
+            <span>Travel</span>
+            <span>Nature</span>
+        </div>
+
+    </div>
+
+</section>
+
+<footer>
+    © 2026 Cloud Travel AI Service Project
+</footer>
+
+</body>
+</html>
