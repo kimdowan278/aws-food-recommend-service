@@ -1,0 +1,12 @@
+package com.foodrecommend.backend.dto;
+
+import com.foodrecommend.backend.entity.FoodLabel;
+
+public record LabelResponse(
+        String name,
+        Float confidence
+) {
+    public static LabelResponse from(FoodLabel label) {
+        return new LabelResponse(label.getLabelName(), label.getConfidence());
+    }
+}
