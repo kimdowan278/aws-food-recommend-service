@@ -17,5 +17,7 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
             String address
     );
 
+    List<Restaurant> findTop5ByAddressContainingOrderByScoreDesc(String address);
+
     List<Restaurant> findTop5ByOrderByScoreDesc();
 }

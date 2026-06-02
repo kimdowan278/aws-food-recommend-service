@@ -34,6 +34,15 @@ public class RestaurantService {
 
     public List<Restaurant> recommend(FoodCategory category, String regionName) {
         if (category == FoodCategory.ETC) {
+            if (StringUtils.hasText(regionName)) {
+                List<Restaurant> regionRestaurants =
+                        restaurantRepository.findTop5ByAddressContainingOrderByScoreDesc(regionName);
+
+                if (!regionRestaurants.isEmpty()) {
+                    return regionRestaurants;
+                }
+            }
+
             return restaurantRepository.findTop5ByOrderByScoreDesc();
         }
 

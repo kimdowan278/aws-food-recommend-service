@@ -17,9 +17,14 @@ public record FoodUploadResponse(
         Float topConfidence,
         LocalDateTime createdAt,
         List<LabelResponse> labels,
-        List<RestaurantResponse> recommendations
+        List<RestaurantResponse> recommendations,
+        List<PlaceResponse> places
 ) {
-    public static FoodUploadResponse from(FoodUpload upload, List<Restaurant> restaurants) {
+    public static FoodUploadResponse from(
+            FoodUpload upload,
+            List<Restaurant> restaurants,
+            List<PlaceResponse> places
+    ) {
         return new FoodUploadResponse(
                 upload.getId(),
                 upload.getOriginalFileName(),
@@ -34,7 +39,12 @@ public record FoodUploadResponse(
                         .toList(),
                 restaurants.stream()
                         .map(RestaurantResponse::from)
-                        .toList()
+                        .toList(),
+                places
         );
+    }
+
+    public static FoodUploadResponse from(FoodUpload upload, List<Restaurant> restaurants) {
+        return from(upload, restaurants, List.of());
     }
 }

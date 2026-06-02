@@ -13,7 +13,8 @@ public class FoodCategoryMapper {
 
     private static final Map<FoodCategory, Set<String>> KEYWORDS = Map.of(
             FoodCategory.KOREAN, Set.of(
-                    "kimchi", "rice", "soup", "stew", "barbecue", "meat", "pork", "beef"
+                    "kimchi", "rice", "soup", "stew", "barbecue", "meat", "pork", "beef",
+                    "ketchup", "sauce", "spicy", "red sauce"
             ),
             FoodCategory.JAPANESE, Set.of(
                     "sushi", "ramen", "noodle", "sashimi", "udon", "tempura"

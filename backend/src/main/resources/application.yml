@@ -27,5 +27,8 @@ app:
     s3:
       bucket: ${S3_BUCKET:food-photo-bucket-cloudcomputing}
 
+  kakao:
+    rest-api-key: ${KAKAO_REST_API_KEY:}
+
   cors:
     allowed-origin: ${CORS_ALLOWED_ORIGIN:http://localhost:3000}

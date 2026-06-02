@@ -3,6 +3,7 @@ package com.foodrecommend.backend.service;
 import com.foodrecommend.backend.domain.FoodCategory;
 import com.foodrecommend.backend.dto.DetectedLabel;
 import com.foodrecommend.backend.dto.FoodUploadResponse;
+import com.foodrecommend.backend.dto.PlaceResponse;
 import com.foodrecommend.backend.entity.FoodUpload;
 import com.foodrecommend.backend.entity.Restaurant;
 import com.foodrecommend.backend.repository.FoodUploadRepository;
@@ -21,6 +22,7 @@ public class FoodUploadService {
     private final RekognitionService rekognitionService;
     private final FoodCategoryMapper foodCategoryMapper;
     private final RestaurantService restaurantService;
+    private final PlaceSearchService placeSearchService;
     private final FoodUploadRepository foodUploadRepository;
 
     @Transactional
@@ -51,8 +53,9 @@ public class FoodUploadService {
         FoodUpload savedUpload = foodUploadRepository.save(foodUpload);
 
         List<Restaurant> restaurants = restaurantService.recommend(category, regionName);
+        List<PlaceResponse> places = placeSearchService.searchPlaces(category, regionName, memo);
 
-        return FoodUploadResponse.from(savedUpload, restaurants);
+        return FoodUploadResponse.from(savedUpload, restaurants, places);
     }
 
     @Transactional(readOnly = true)
