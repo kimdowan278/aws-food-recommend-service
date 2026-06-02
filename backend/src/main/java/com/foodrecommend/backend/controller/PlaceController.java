@@ -27,11 +27,11 @@ public class PlaceController {
             @RequestParam(required = false) String y,
             @RequestParam(defaultValue = "3000") Integer radius
     ) {
-        String searchKeyword = placeSearchKeywordService.buildSearchKeyword(
-                category,
-                foodType,
-                regionName
-        );
+        boolean hasLocation = x != null && !x.isBlank() && y != null && !y.isBlank();
+
+        String searchKeyword = hasLocation
+                ? placeSearchKeywordService.buildLocationSearchKeyword(category, foodType)
+                : placeSearchKeywordService.buildSearchKeyword(category, foodType, regionName);
 
         return placeSearchService.searchPlaces(
                 searchKeyword,

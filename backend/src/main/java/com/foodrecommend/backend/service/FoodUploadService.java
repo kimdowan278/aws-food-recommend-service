@@ -40,7 +40,14 @@ public class FoodUploadService {
         FoodClassificationResult classification =
                 foodClassificationService.classify(detectedLabels, memo);
 
-        String searchKeyword = placeSearchKeywordService.buildSearchKeyword(
+        boolean hasLocation = x != null && !x.isBlank() && y != null && !y.isBlank();
+
+        String searchKeyword = hasLocation
+                ? placeSearchKeywordService.buildLocationSearchKeyword(
+                classification.category(),
+                classification.foodType()
+        )
+                : placeSearchKeywordService.buildSearchKeyword(
                 classification.category(),
                 classification.foodType(),
                 regionName
