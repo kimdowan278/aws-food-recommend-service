@@ -22,7 +22,10 @@ public class PlaceController {
     public List<PlaceResponse> searchPlaces(
             @RequestParam(defaultValue = "ETC") FoodCategory category,
             @RequestParam(defaultValue = "ETC") FoodType foodType,
-            @RequestParam(required = false) String regionName
+            @RequestParam(required = false) String regionName,
+            @RequestParam(required = false) String x,
+            @RequestParam(required = false) String y,
+            @RequestParam(defaultValue = "3000") Integer radius
     ) {
         String searchKeyword = placeSearchKeywordService.buildSearchKeyword(
                 category,
@@ -30,6 +33,11 @@ public class PlaceController {
                 regionName
         );
 
-        return placeSearchService.searchPlaces(searchKeyword);
+        return placeSearchService.searchPlaces(
+                searchKeyword,
+                x,
+                y,
+                radius
+        );
     }
 }

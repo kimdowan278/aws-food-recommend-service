@@ -1,12 +1,10 @@
 package com.foodrecommend.backend.service;
 
-import com.foodrecommend.backend.domain.FoodCategory;
 import com.foodrecommend.backend.dto.DetectedLabel;
 import com.foodrecommend.backend.dto.FoodClassificationResult;
 import com.foodrecommend.backend.dto.FoodUploadResponse;
 import com.foodrecommend.backend.dto.PlaceResponse;
 import com.foodrecommend.backend.entity.FoodUpload;
-import com.foodrecommend.backend.entity.Restaurant;
 import com.foodrecommend.backend.repository.FoodUploadRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,20 +21,24 @@ public class FoodUploadService {
     private final RekognitionService rekognitionService;
     private final FoodClassificationService foodClassificationService;
     private final PlaceSearchKeywordService placeSearchKeywordService;
-    private final RestaurantService restaurantService;
     private final PlaceSearchService placeSearchService;
     private final FoodUploadRepository foodUploadRepository;
 
     @Transactional
-    public FoodUploadResponse uploadAndRecommend(MultipartFile file, String regionName, String memo) {
+    public FoodUploadResponse uploadAndRecommend(
+            MultipartFile file,
+            String regionName,
+            String x,
+            String y,
+            Integer radius,
+            String memo
+    ) {
         String s3Key = s3Service.uploadImage(file);
 
         List<DetectedLabel> detectedLabels = rekognitionService.detectLabels(s3Key);
 
         FoodClassificationResult classification =
                 foodClassificationService.classify(detectedLabels, memo);
-
-        FoodCategory category = classification.category();
 
         String searchKeyword = placeSearchKeywordService.buildSearchKeyword(
                 classification.category(),
@@ -52,6 +54,9 @@ public class FoodUploadService {
                 file.getOriginalFilename(),
                 s3Key,
                 regionName,
+                x,
+                y,
+                radius,
                 memo,
                 classification.category(),
                 classification.foodType(),
@@ -65,17 +70,21 @@ public class FoodUploadService {
 
         FoodUpload savedUpload = foodUploadRepository.save(foodUpload);
 
-        List<Restaurant> restaurants = restaurantService.recommend(category, regionName);
-        List<PlaceResponse> places = placeSearchService.searchPlaces(searchKeyword);
+        List<PlaceResponse> places = placeSearchService.searchPlaces(
+                searchKeyword,
+                x,
+                y,
+                radius
+        );
 
-        return FoodUploadResponse.from(savedUpload, restaurants, places);
+        return FoodUploadResponse.from(savedUpload, places);
     }
 
     @Transactional(readOnly = true)
     public List<FoodUploadResponse> findRecentUploads() {
         return foodUploadRepository.findTop20ByOrderByCreatedAtDesc()
                 .stream()
-                .map(upload -> FoodUploadResponse.from(upload, List.of()))
+                .map(FoodUploadResponse::from)
                 .toList();
     }
 }

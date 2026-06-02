@@ -8,6 +8,7 @@ public record PlaceResponse(
         String phone,
         String placeUrl,
         String x,
-        String y
+        String y,
+        String distance
 ) {
 }

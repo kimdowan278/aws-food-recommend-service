@@ -23,6 +23,10 @@ public class PlaceSearchService {
     private String kakaoRestApiKey;
 
     public List<PlaceResponse> searchPlaces(String searchKeyword) {
+        return searchPlaces(searchKeyword, null, null, null);
+    }
+
+    public List<PlaceResponse> searchPlaces(String searchKeyword, String x, String y, Integer radius) {
         if (!StringUtils.hasText(kakaoRestApiKey)) {
             return List.of();
         }
@@ -31,16 +35,28 @@ public class PlaceSearchService {
             return List.of();
         }
 
+        boolean hasLocation = StringUtils.hasText(x) && StringUtils.hasText(y);
+        int searchRadius = normalizeRadius(radius);
+
         try {
             String body = restClient.get()
-                    .uri(uriBuilder -> uriBuilder
-                            .scheme("https")
-                            .host("dapi.kakao.com")
-                            .path("/v2/local/search/keyword.json")
-                            .queryParam("query", searchKeyword)
-                            .queryParam("size", 5)
-                            .build()
-                    )
+                    .uri(uriBuilder -> {
+                        var builder = uriBuilder
+                                .scheme("https")
+                                .host("dapi.kakao.com")
+                                .path("/v2/local/search/keyword.json")
+                                .queryParam("query", searchKeyword)
+                                .queryParam("size", 5);
+
+                        if (hasLocation) {
+                            builder.queryParam("x", x.trim())
+                                    .queryParam("y", y.trim())
+                                    .queryParam("radius", searchRadius)
+                                    .queryParam("sort", "distance");
+                        }
+
+                        return builder.build();
+                    })
                     .header(HttpHeaders.AUTHORIZATION, "KakaoAK " + kakaoRestApiKey.trim())
                     .retrieve()
                     .body(String.class);
@@ -60,7 +76,8 @@ public class PlaceSearchService {
                             document.path("phone").asText(),
                             document.path("place_url").asText(),
                             document.path("x").asText(),
-                            document.path("y").asText()
+                            document.path("y").asText(),
+                            document.path("distance").asText()
                     ));
                 }
             }
@@ -70,5 +87,17 @@ public class PlaceSearchService {
             e.printStackTrace();
             return List.of();
         }
+    }
+
+    private int normalizeRadius(Integer radius) {
+        if (radius == null) {
+            return 3000;
+        }
+
+        if (radius < 0) {
+            return 0;
+        }
+
+        return Math.min(radius, 20000);
     }
 }

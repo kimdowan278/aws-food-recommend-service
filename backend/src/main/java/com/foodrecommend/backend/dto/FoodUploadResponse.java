@@ -3,7 +3,6 @@ package com.foodrecommend.backend.dto;
 import com.foodrecommend.backend.domain.FoodCategory;
 import com.foodrecommend.backend.domain.FoodType;
 import com.foodrecommend.backend.entity.FoodUpload;
-import com.foodrecommend.backend.entity.Restaurant;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -13,6 +12,9 @@ public record FoodUploadResponse(
         String originalFileName,
         String s3Key,
         String regionName,
+        String x,
+        String y,
+        Integer radius,
         String memo,
         FoodCategory category,
         FoodType foodType,
@@ -20,12 +22,10 @@ public record FoodUploadResponse(
         Float topConfidence,
         LocalDateTime createdAt,
         List<LabelResponse> labels,
-        List<RestaurantResponse> recommendations,
         List<PlaceResponse> places
 ) {
     public static FoodUploadResponse from(
             FoodUpload upload,
-            List<Restaurant> restaurants,
             List<PlaceResponse> places
     ) {
         return new FoodUploadResponse(
@@ -33,6 +33,9 @@ public record FoodUploadResponse(
                 upload.getOriginalFileName(),
                 upload.getS3Key(),
                 upload.getRegionName(),
+                upload.getX(),
+                upload.getY(),
+                upload.getRadius(),
                 upload.getMemo(),
                 upload.getCategory(),
                 upload.getFoodType(),
@@ -42,14 +45,11 @@ public record FoodUploadResponse(
                 upload.getLabels().stream()
                         .map(LabelResponse::from)
                         .toList(),
-                restaurants.stream()
-                        .map(RestaurantResponse::from)
-                        .toList(),
                 places
         );
     }
 
-    public static FoodUploadResponse from(FoodUpload upload, List<Restaurant> restaurants) {
-        return from(upload, restaurants, List.of());
+    public static FoodUploadResponse from(FoodUpload upload) {
+        return from(upload, List.of());
     }
 }

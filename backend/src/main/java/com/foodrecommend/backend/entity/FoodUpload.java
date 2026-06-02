@@ -27,6 +27,12 @@ public class FoodUpload {
 
     private String regionName;
 
+    private String x;
+
+    private String y;
+
+    private Integer radius;
+
     @Column(length = 1000)
     private String memo;
 
@@ -46,11 +52,15 @@ public class FoodUpload {
     private List<FoodLabel> labels = new ArrayList<>();
 
     private FoodUpload(String originalFileName, String s3Key, String regionName,
+                       String x, String y, Integer radius,
                        String memo, FoodCategory category, FoodType foodType,
                        String searchKeyword, Float topConfidence) {
         this.originalFileName = originalFileName;
         this.s3Key = s3Key;
         this.regionName = regionName;
+        this.x = x;
+        this.y = y;
+        this.radius = radius;
         this.memo = memo;
         this.category = category;
         this.foodType = foodType;
@@ -60,10 +70,11 @@ public class FoodUpload {
     }
 
     public static FoodUpload create(String originalFileName, String s3Key, String regionName,
+                                    String x, String y, Integer radius,
                                     String memo, FoodCategory category, FoodType foodType,
                                     String searchKeyword, Float topConfidence) {
-        return new FoodUpload(originalFileName, s3Key, regionName, memo, category,
-                foodType, searchKeyword, topConfidence);
+        return new FoodUpload(originalFileName, s3Key, regionName, x, y, radius,
+                memo, category, foodType, searchKeyword, topConfidence);
     }
 
     public void addLabel(String labelName, Float confidence) {
