@@ -1,6 +1,7 @@
 package com.foodrecommend.backend.dto;
 
 import com.foodrecommend.backend.domain.FoodCategory;
+import com.foodrecommend.backend.domain.FoodType;
 import com.foodrecommend.backend.entity.FoodUpload;
 import com.foodrecommend.backend.entity.Restaurant;
 
@@ -14,6 +15,8 @@ public record FoodUploadResponse(
         String regionName,
         String memo,
         FoodCategory category,
+        FoodType foodType,
+        String searchKeyword,
         Float topConfidence,
         LocalDateTime createdAt,
         List<LabelResponse> labels,
@@ -32,6 +35,8 @@ public record FoodUploadResponse(
                 upload.getRegionName(),
                 upload.getMemo(),
                 upload.getCategory(),
+                upload.getFoodType(),
+                upload.getSearchKeyword(),
                 upload.getTopConfidence(),
                 upload.getCreatedAt(),
                 upload.getLabels().stream()

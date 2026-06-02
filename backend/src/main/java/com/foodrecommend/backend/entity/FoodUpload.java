@@ -1,6 +1,7 @@
 package com.foodrecommend.backend.entity;
 
 import com.foodrecommend.backend.domain.FoodCategory;
+import com.foodrecommend.backend.domain.FoodType;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -32,6 +33,11 @@ public class FoodUpload {
     @Enumerated(EnumType.STRING)
     private FoodCategory category;
 
+    @Enumerated(EnumType.STRING)
+    private FoodType foodType;
+
+    private String searchKeyword;
+
     private Float topConfidence;
 
     private LocalDateTime createdAt;
@@ -40,19 +46,24 @@ public class FoodUpload {
     private List<FoodLabel> labels = new ArrayList<>();
 
     private FoodUpload(String originalFileName, String s3Key, String regionName,
-                       String memo, FoodCategory category, Float topConfidence) {
+                       String memo, FoodCategory category, FoodType foodType,
+                       String searchKeyword, Float topConfidence) {
         this.originalFileName = originalFileName;
         this.s3Key = s3Key;
         this.regionName = regionName;
         this.memo = memo;
         this.category = category;
+        this.foodType = foodType;
+        this.searchKeyword = searchKeyword;
         this.topConfidence = topConfidence;
         this.createdAt = LocalDateTime.now();
     }
 
     public static FoodUpload create(String originalFileName, String s3Key, String regionName,
-                                    String memo, FoodCategory category, Float topConfidence) {
-        return new FoodUpload(originalFileName, s3Key, regionName, memo, category, topConfidence);
+                                    String memo, FoodCategory category, FoodType foodType,
+                                    String searchKeyword, Float topConfidence) {
+        return new FoodUpload(originalFileName, s3Key, regionName, memo, category,
+                foodType, searchKeyword, topConfidence);
     }
 
     public void addLabel(String labelName, Float confidence) {

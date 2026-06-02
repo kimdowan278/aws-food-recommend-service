@@ -2,6 +2,7 @@ package com.foodrecommend.backend.service;
 
 import com.foodrecommend.backend.domain.FoodCategory;
 import com.foodrecommend.backend.dto.DetectedLabel;
+import com.foodrecommend.backend.dto.FoodClassificationResult;
 import com.foodrecommend.backend.dto.FoodUploadResponse;
 import com.foodrecommend.backend.dto.PlaceResponse;
 import com.foodrecommend.backend.entity.FoodUpload;
@@ -20,7 +21,8 @@ public class FoodUploadService {
 
     private final S3Service s3Service;
     private final RekognitionService rekognitionService;
-    private final FoodCategoryMapper foodCategoryMapper;
+    private final FoodClassificationService foodClassificationService;
+    private final PlaceSearchKeywordService placeSearchKeywordService;
     private final RestaurantService restaurantService;
     private final PlaceSearchService placeSearchService;
     private final FoodUploadRepository foodUploadRepository;
@@ -31,7 +33,16 @@ public class FoodUploadService {
 
         List<DetectedLabel> detectedLabels = rekognitionService.detectLabels(s3Key);
 
-        FoodCategory category = foodCategoryMapper.mapToCategory(detectedLabels);
+        FoodClassificationResult classification =
+                foodClassificationService.classify(detectedLabels, memo);
+
+        FoodCategory category = classification.category();
+
+        String searchKeyword = placeSearchKeywordService.buildSearchKeyword(
+                classification.category(),
+                classification.foodType(),
+                regionName
+        );
 
         Float topConfidence = detectedLabels.isEmpty()
                 ? null
@@ -42,7 +53,9 @@ public class FoodUploadService {
                 s3Key,
                 regionName,
                 memo,
-                category,
+                classification.category(),
+                classification.foodType(),
+                searchKeyword,
                 topConfidence
         );
 
@@ -53,7 +66,7 @@ public class FoodUploadService {
         FoodUpload savedUpload = foodUploadRepository.save(foodUpload);
 
         List<Restaurant> restaurants = restaurantService.recommend(category, regionName);
-        List<PlaceResponse> places = placeSearchService.searchPlaces(category, regionName, memo);
+        List<PlaceResponse> places = placeSearchService.searchPlaces(searchKeyword);
 
         return FoodUploadResponse.from(savedUpload, restaurants, places);
     }
