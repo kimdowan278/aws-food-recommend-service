@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>분석 결과</title>
+
+    <link
+        rel="stylesheet"
+        href="css/result.css">
+
+</head>
+
+<body>
+
+<header>
+
+    <h1>Food AI</h1>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="upload.html">Upload</a>
+    </nav>
+
+</header>
+
+<div class="result-container">
+
+    <div class="result-card">
+
+        <h2>
+            AI 분석 결과
+        </h2>
+
+        <div class="result-box">
+
+            <h3 id="category">
+                한식
+            </h3>
+
+            <p id="confidence">
+                95%
+            </p>
+
+        </div>
+
+        <h3>
+            추천 맛집
+        </h3>
+
+        <ul id="restaurantList">
+
+        </ul>
+
+        <button
+            onclick="location.href='upload.html'">
+
+            다시 업로드
+
+        </button>
+
+    </div>
+
+</div>
+
+<script src="js/result.js"></script>
+
+</body>
+</html>
