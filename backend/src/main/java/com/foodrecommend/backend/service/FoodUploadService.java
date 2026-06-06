@@ -1,5 +1,7 @@
 package com.foodrecommend.backend.service;
 
+import com.foodrecommend.backend.domain.FoodCategory;
+import com.foodrecommend.backend.domain.FoodType;
 import com.foodrecommend.backend.dto.DetectedLabel;
 import com.foodrecommend.backend.dto.FoodClassificationResult;
 import com.foodrecommend.backend.dto.FoodUploadResponse;
@@ -35,6 +37,22 @@ public class FoodUploadService {
     ) {
         String s3Key = s3Service.uploadImage(file);
 
+        FoodUpload foodUpload = FoodUpload.create(
+                file.getOriginalFilename(),
+                s3Key,
+                regionName,
+                x,
+                y,
+                radius,
+                memo,
+                FoodCategory.ETC,
+                FoodType.ETC,
+                null,
+                null
+        );
+
+        FoodUpload savedUpload = foodUploadRepository.saveAndFlush(foodUpload);
+
         List<DetectedLabel> detectedLabels = rekognitionService.detectLabels(s3Key);
 
         FoodClassificationResult classification =
@@ -57,25 +75,12 @@ public class FoodUploadService {
                 ? null
                 : detectedLabels.get(0).confidence();
 
-        FoodUpload foodUpload = FoodUpload.create(
-                file.getOriginalFilename(),
-                s3Key,
-                regionName,
-                x,
-                y,
-                radius,
-                memo,
+        savedUpload.updateAnalysis(
                 classification.category(),
                 classification.foodType(),
                 searchKeyword,
                 topConfidence
         );
-
-        for (DetectedLabel label : detectedLabels) {
-            foodUpload.addLabel(label.name(), label.confidence());
-        }
-
-        FoodUpload savedUpload = foodUploadRepository.save(foodUpload);
 
         List<PlaceResponse> places = placeSearchService.searchPlaces(
                 searchKeyword,
@@ -84,7 +89,7 @@ public class FoodUploadService {
                 radius
         );
 
-        return FoodUploadResponse.from(savedUpload, places);
+        return FoodUploadResponse.from(savedUpload, detectedLabels, places);
     }
 
     @Transactional(readOnly = true)

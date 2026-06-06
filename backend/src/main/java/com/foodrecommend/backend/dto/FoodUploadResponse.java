@@ -49,6 +49,32 @@ public record FoodUploadResponse(
         );
     }
 
+    public static FoodUploadResponse from(
+            FoodUpload upload,
+            List<DetectedLabel> detectedLabels,
+            List<PlaceResponse> places
+    ) {
+        return new FoodUploadResponse(
+                upload.getId(),
+                upload.getOriginalFileName(),
+                upload.getS3Key(),
+                upload.getRegionName(),
+                upload.getX(),
+                upload.getY(),
+                upload.getRadius(),
+                upload.getMemo(),
+                upload.getCategory(),
+                upload.getFoodType(),
+                upload.getSearchKeyword(),
+                upload.getTopConfidence(),
+                upload.getCreatedAt(),
+                detectedLabels.stream()
+                        .map(label -> new LabelResponse(label.name(), label.confidence()))
+                        .toList(),
+                places
+        );
+    }
+
     public static FoodUploadResponse from(FoodUpload upload) {
         return from(upload, List.of());
     }

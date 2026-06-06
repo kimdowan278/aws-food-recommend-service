@@ -77,6 +77,14 @@ public class FoodUpload {
                 memo, category, foodType, searchKeyword, topConfidence);
     }
 
+    public void updateAnalysis(FoodCategory category, FoodType foodType,
+                               String searchKeyword, Float topConfidence) {
+        this.category = category;
+        this.foodType = foodType;
+        this.searchKeyword = searchKeyword;
+        this.topConfidence = topConfidence;
+    }
+
     public void addLabel(String labelName, Float confidence) {
         FoodLabel foodLabel = FoodLabel.create(this, labelName, confidence);
         labels.add(foodLabel);
