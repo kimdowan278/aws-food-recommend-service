@@ -76,7 +76,7 @@ AWS Rekognition 기반 음식 사진 맛집 추천 서비스
 
 ## 2. 시스템 아키텍처
 
-![메인페이지](docs/test_프로젝트구성도.png)
+![메인페이지](docs/project_diagram.png)
 ```text
 사용자 이미지 업로드
 ↓
