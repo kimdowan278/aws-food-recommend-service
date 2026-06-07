@@ -114,8 +114,8 @@ AWS Rekognition 기반 이미지 분석
 
 # 박영주 - 백엔드
 
-백엔드 구현 내용 요약 - https://github.com/kimdowan278/aws-food-recommend-service/blob/main/docs/Backend_details.pdf
-백엔드 구현 내용 - https://github.com/kimdowan278/aws-food-recommend-service/blob/main/docs/Backend_full.pdf
+- 백엔드 구현 내용 요약 - https://github.com/kimdowan278/aws-food-recommend-service/blob/main/docs/Backend_details.pdf
+- 백엔드 구현 내용 - https://github.com/kimdowan278/aws-food-recommend-service/blob/main/docs/Backend_full.pdf
 
 ## 1. 백엔드 개발 범위
 
