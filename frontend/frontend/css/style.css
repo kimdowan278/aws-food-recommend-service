@@ -1,0 +1,356 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Segoe UI',sans-serif;
+    background:#f7f9fc;
+    color:#222;
+}
+
+.navbar{
+    height:80px;
+    background:white;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:0 80px;
+
+    box-shadow:0 2px 10px rgba(0,0,0,0.05);
+}
+
+.logo{
+    font-size:28px;
+    font-weight:700;
+    color:#1f5cff;
+}
+
+nav a{
+    margin-left:30px;
+    text-decoration:none;
+    color:#333;
+}
+
+.hero{
+    height:550px;
+
+    background:
+    linear-gradient(
+        rgba(0,0,0,0.25),
+        rgba(0,0,0,0.25)
+    ),
+    url("https://images.unsplash.com/photo-1517248135467-4c7edcad34c4");
+
+    background-size:cover;
+    background-position:center;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    text-align:center;
+
+    color:white;
+}
+
+.hero h1{
+    font-size:56px;
+    margin-bottom:20px;
+}
+
+.hero p{
+    font-size:22px;
+    margin-bottom:30px;
+}
+
+.hero button{
+    background:#1f5cff;
+    color:white;
+
+    border:none;
+
+    padding:16px 32px;
+
+    border-radius:12px;
+
+    cursor:pointer;
+}
+
+.categories{
+    padding:80px;
+}
+
+.categories h2{
+    margin-bottom:25px;
+}
+
+.category-list{
+    display:flex;
+    gap:15px;
+    flex-wrap:wrap;
+}
+
+.category{
+    background:white;
+
+    padding:14px 24px;
+
+    border-radius:999px;
+
+    box-shadow:0 3px 10px rgba(0,0,0,0.08);
+}
+
+.recommend{
+    padding:0 80px 80px;
+}
+
+.card-container{
+    display:grid;
+
+    grid-template-columns:
+    repeat(auto-fit,minmax(280px,1fr));
+
+    gap:25px;
+}
+
+.card{
+    background:white;
+
+    border-radius:18px;
+
+    overflow:hidden;
+
+    box-shadow:0 5px 15px rgba(0,0,0,0.08);
+}
+
+.card img{
+    width:100%;
+    height:220px;
+    object-fit:cover;
+}
+
+.card-content{
+    padding:20px;
+}
+
+.card-content h3{
+    margin-bottom:10px;
+}
+
+footer{
+    background:#0f172a;
+    color:white;
+
+    text-align:center;
+
+    padding:30px;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:#f5f7fb;
+    font-family:"Segoe UI",sans-serif;
+}
+
+.navbar{
+    background:white;
+    padding:20px 60px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    box-shadow:0 2px 10px rgba(0,0,0,.08);
+}
+
+.logo{
+    font-size:24px;
+    font-weight:700;
+    color:#5a67d8;
+}
+
+nav a{
+    margin-left:25px;
+    text-decoration:none;
+    color:#444;
+    font-weight:600;
+}
+
+.hero{
+    min-height:500px;
+
+    background:
+    linear-gradient(
+        rgba(0,0,0,.35),
+        rgba(0,0,0,.35)
+    ),
+    url("https://images.unsplash.com/photo-1504674900247-0877df9cc836");
+
+    background-size:cover;
+    background-position:center;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    text-align:center;
+}
+
+.hero-content{
+    color:white;
+}
+
+.hero h1{
+    font-size:52px;
+    margin-bottom:20px;
+}
+
+.hero p{
+    font-size:20px;
+    margin-bottom:30px;
+}
+
+.hero button{
+    border:none;
+    padding:15px 35px;
+    border-radius:10px;
+    background:#5a67d8;
+    color:white;
+    font-size:18px;
+    cursor:pointer;
+}
+
+.hero button:hover{
+    opacity:.9;
+}
+
+.recent-section{
+
+    max-width:1300px;
+
+    margin:80px auto;
+
+    padding:0 30px;
+}
+
+.section-header{
+    text-align:center;
+    margin-bottom:40px;
+}
+
+.section-header h2{
+    font-size:36px;
+    margin-bottom:10px;
+}
+
+.section-header p{
+    color:#666;
+}
+
+.restaurant-grid{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(auto-fill,minmax(280px,1fr));
+
+    gap:25px;
+}
+
+.restaurant-card{
+
+    background:white;
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+    box-shadow:
+    0 8px 20px rgba(0,0,0,.08);
+
+    transition:.25s;
+}
+
+.restaurant-card:hover{
+
+    transform:translateY(-6px);
+
+    box-shadow:
+    0 12px 28px rgba(0,0,0,.12);
+}
+
+.card-body{
+    padding:25px;
+}
+
+.badge{
+
+    display:inline-block;
+
+    background:#eef2ff;
+
+    color:#5a67d8;
+
+    padding:6px 12px;
+
+    border-radius:20px;
+
+    font-size:13px;
+
+    margin-bottom:15px;
+}
+
+.restaurant-card h3{
+    margin-bottom:12px;
+}
+
+.category{
+    color:#5a67d8;
+    font-weight:600;
+    margin-bottom:10px;
+}
+
+.address{
+    color:#555;
+    margin-bottom:10px;
+}
+
+.phone{
+    color:#777;
+    margin-bottom:20px;
+}
+
+.map-btn{
+
+    display:inline-block;
+
+    text-decoration:none;
+
+    background:#5a67d8;
+
+    color:white;
+
+    padding:10px 16px;
+
+    border-radius:10px;
+}
+
+footer{
+
+    margin-top:80px;
+
+    padding:30px;
+
+    text-align:center;
+
+    background:white;
+
+    color:#777;
+}

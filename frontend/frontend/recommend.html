@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>선호도 추천</title>
+
+    <link rel="stylesheet" href="css/recommend.css">
+</head>
+
+<body>
+
+<header>
+    <h1>Food AI</h1>
+
+<nav>
+    <a href="index.html">Home</a>
+    <a href="upload.html">업로드</a>
+    <a href="recommend.html">추천</a>
+    <a href="history.html">내 기록</a>
+</nav>
+</header>
+
+<main class="container">
+
+    <section class="preference-card">
+
+        <h2>나의 음식 취향 분석</h2>
+
+<div class="summary">
+
+    <div class="summary-item">
+        <span>총 업로드 수</span>
+        <strong id="totalUploads">-</strong>
+    </div>
+
+    <div class="summary-item">
+        <span>선호 카테고리</span>
+        <strong id="favoriteCategory">-</strong>
+    </div>
+
+    <div class="summary-item">
+        <span>선호 음식</span>
+        <strong id="favoriteFoodType">-</strong>
+    </div>
+
+    <div class="summary-item">
+        <span>업로드 횟수</span>
+        <strong id="favoriteCount">-</strong>
+    </div>
+
+    <div class="summary-item">
+        <span>추천 키워드</span>
+        <strong id="searchKeyword">-</strong>
+    </div>
+
+</div>
+
+    </section>
+
+    <section class="stats-card">
+
+        <h2>업로드 통계</h2>
+
+        <div id="foodStats">
+
+        </div>
+
+    </section>
+
+    <section class="recommend-card">
+
+        <h2>추천 맛집</h2>
+
+        <div id="restaurantList" class="restaurant-list">
+
+        </div>
+
+    </section>
+
+</main>
+
+<script src="js/recommend.js"></script>
+
+</body>
+
+</html>

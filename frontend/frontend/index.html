@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food AI Recommendation</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<header class="navbar">
+
+    <div class="logo">
+        FoodAI
+    </div>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="upload.html">업로드</a>
+        <a href="recommend.html">추천</a>
+        <a href="history.html">내 기록</a>
+    </nav>
+
+</header>
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <h1>
+            음식 사진 한 장으로<br>
+            맛집을 찾아보세요
+        </h1>
+
+        <p>
+            AWS Rekognition 기반 AI 음식 분석 서비스
+        </p>
+
+        <button id="uploadBtn">
+            사진 업로드 시작하기
+        </button>
+
+    </div>
+
+</section>
+
+<section class="recent-section">
+
+    <div class="section-header">
+        <h2>최근 추천 맛집</h2>
+        <p>최근 분석 결과를 기반으로 추천된 맛집입니다.</p>
+    </div>
+
+    <div id="recentRestaurantList" class="restaurant-grid">
+
+    </div>
+
+</section>
+
+<footer>
+
+    <p>
+        AWS Rekognition Food Recommendation Project
+    </p>
+
+</footer>
+
+<script src="js/main.js"></script>
+
+</body>
+</html>

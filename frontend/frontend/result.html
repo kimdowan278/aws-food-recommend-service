@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>분석 결과</title>
+
+    <link rel="stylesheet" href="css/result.css">
+</head>
+
+<body>
+
+<header>
+
+    <h1>Food AI</h1>
+
+<nav>
+    <a href="index.html">Home</a>
+    <a href="upload.html">업로드</a>
+    <a href="recommend.html">추천</a>
+    <a href="history.html">내 기록</a>
+</nav>
+
+</header>
+
+<div class="result-container">
+
+    <div class="result-card">
+
+        <h2>AI 분석 결과</h2>
+
+        <!-- 분석 결과 요약 -->
+        <div class="result-box">
+
+            <h3 id="category">
+                카테고리
+            </h3>
+
+            <p id="foodType">
+                음식 종류
+            </p>
+
+            <p id="searchKeyword">
+                검색 키워드
+            </p>
+
+            <p id="confidence">
+                신뢰도
+            </p>
+
+        </div>
+
+        <!-- Rekognition 태그 -->
+        <section class="section-block">
+
+            <h3>AI 인식 태그</h3>
+
+            <div id="labelList" class="label-list">
+
+                <!-- JS 동적 생성 -->
+
+            </div>
+
+        </section>
+
+        <!-- 추천 맛집 -->
+        <section class="section-block">
+
+            <h3>추천 맛집</h3>
+
+            <div id="restaurantList" class="restaurant-list">
+
+                <!-- JS 동적 생성 -->
+
+            </div>
+
+        </section>
+
+        <div class="button-group">
+
+            <button
+                class="primary-btn"
+                onclick="location.href='upload.html'">
+
+                다시 업로드
+
+            </button>
+
+            <button
+                class="secondary-btn"
+                onclick="location.href='history.html'">
+
+                업로드 기록
+
+            </button>
+
+            <button
+                class="secondary-btn"
+                onclick="location.href='recommend.html'">
+
+                선호도 추천
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="js/result.js"></script>
+
+</body>
+</html>
