@@ -77,21 +77,241 @@ AWS Rekognition 기반 음식 사진 맛집 추천 서비스
 ## 2. 시스템 아키텍처
 
 ![메인페이지](docs/project_diagram.png)
+
+
+---
+
+# G. 개발 결과물 사용 방법 (설치 및 실행)
+
+---
+
+# H. 개발 결과물 활용 방안
+
+-음식 기반 개인 맞춤 추천 서비스
+-배달 플랫폼에서 이미지 기반 자동 추천 시스템
+-여행지 음식 추천 서비스
+
+---
+
+# I. AI활용
+
+본 프로젝트에서는 AWS Rekognition을 활용하여 이미지 기반 음식 분석 기능을 구현하였다.
+
+이를 통해 사용자가 업로드한 이미지를 자동으로 분석하고 음식 카테고리를 분류하여 추천 시스템에 활용하였다.
+
+AI 활용 범위
+AWS Rekognition 기반 이미지 분석
+음식 라벨 및 카테고리 자동 추출
+분석 결과 기반 추천 로직 적용
+
+전체 코드 기준 약 20~30% 정도가 AI 기반 API 호출 및 결과 처리 로직에 해당한다.
+
+---
+
+# J. 담당 파트별 개발 내역 상세
+
+# 박영주 - 백엔드
+## 1. 백엔드 개발 범위
+
+본 프로젝트의 백엔드는 Spring Boot 기반으로 구현되었으며, AWS 클라우드 서비스와 연동하여 이미지 분석 및 음식 추천 기능을 제공한다.
+
+### 주요 구현 범위
+
+- Spring Boot 기반 REST API 서버 구현
+- 음식 사진 업로드 API 구현
+- AWS S3 이미지 저장 연동
+- AWS Rekognition 이미지 분석 연동
+- S3 트리거 기반 Lambda 자동 분석 처리
+- Amazon RDS(MySQL) 데이터 저장 구조 설계
+- Kakao Local API 기반 실제 음식점 추천 기능 구현
+- 위치 좌표 기반 거리순 추천 기능 구현
+- 업로드 기록 기반 개인화 추천 기능 구현
+
+---
+
+## 2. 백엔드 동작 흐름
+
+백엔드는 다음과 같은 순서로 동작한다.
+
+1. 사용자가 음식 이미지, 지역명, 메모, 위치 좌표를 입력하여 업로드
+2. Spring Boot 서버가 이미지를 S3에 저장하고 업로드 정보를 RDS(food_upload 테이블)에 저장
+3. S3 ObjectCreated 이벤트 발생 시 Lambda 자동 실행
+4. Lambda가 AWS Rekognition DetectLabels API를 호출하여 이미지 분석 수행
+5. 분석된 라벨이 food_label 테이블에 자동 저장
+6. Spring Boot가 Rekognition 결과 + 사용자 메모를 기반으로 음식 카테고리 분류
+7. 분류된 음식 유형과 좌표 정보를 기반으로 Kakao Local API 호출
+8. 사용자 위치 기준으로 주변 음식점 거리순 추천 수행
+9. 최종적으로 분석 결과 + 추천 맛집 데이터를 프론트엔드로 반환
+
+---
+
+## 3. 주요 기능 상세
+
+### 3-1. 음식 사진 업로드 API
+- `POST /api/food/uploads`
+- 이미지 + 지역명 + 메모 + 위도/경도 + 검색 반경 처리
+
+---
+
+### 3-2. S3 이미지 저장
+- 업로드 이미지를 S3 `uploads/` 경로에 저장
+- S3 Key를 RDS와 연결하여 데이터 추적 가능
+
+---
+
+### 3-3. Lambda 자동 라벨 분석
+- S3 ObjectCreated 이벤트 발생 시 자동 실행
+- Rekognition DetectLabels 호출
+- 분석 결과를 `food_label` 테이블에 저장
+
+---
+
+### 3-4. 음식 카테고리 분류
+- Rekognition Label + 사용자 입력 메모 결합
+- 예:
+  - "떡볶이" → KOREAN / TTEOKBOKKI
+  - "피자" → WESTERN / PIZZA
+
+---
+
+### 3-5. Kakao Local API 추천
+- 실제 음식점 데이터 기반 추천
+- 더미 데이터가 아닌 실제 위치 기반 검색
+- 음식 카테고리 + 좌표 기반 필터링
+
+---
+
+### 3-6. 거리 기반 추천
+- 사용자 좌표 (x, y) 기준 계산
+- 반경 내 음식점 거리순 정렬
+
+---
+
+### 3-7. 업로드 기록 기반 추천
+- 전체 업로드 데이터 기반 음식 유형 분석
+- 가장 많이 등장한 음식 카테고리 추출
+- 해당 카테고리 기반 추천 수행
+- 향후 사용자별 로그인 기반 개인화 추천 확장 가능
+
+---
+
+# 임나빈 - AWS 기반 인프라 구축
+
+## 1. 전체 개요
+
+AWS EC2, S3, Lambda, Rekognition, RDS를 활용하여 서버리스 기반 이미지 분석 및 추천 시스템을 구축하였다.
+
+---
+
+## 2. IAM Role 구성
+
+### EC2-FoodService-Role
+- S3 Full Access
+- Rekognition Full Access
+- EC2 백엔드 서버 권한 부여
+
+---
+
+### Lambda Role (detect-food-tags-role-cnih2vvt)
+- S3 ReadOnly Access
+- Rekognition DetectLabels 권한
+- CloudWatch Logs 권한
+- VPC Access 권한
+
+---
+
+## 3. Security Group
+
+### EC2-Web-SG
+- HTTP (80)
+- HTTPS (443)
+- SSH (22)
+- Spring Boot (8080)
+
+---
+
+### RDS-DB-SG
+- MySQL (3306)
+- EC2에서만 접근 허용
+- 외부 접근 차단
+
+---
+
+## 4. VPC 및 네트워크 구성
+
+- Lambda를 VPC 내부에 배치하여 RDS와 직접 통신
+- Subnet 2개 구성 (Multi-AZ 구조)
+
+---
+
+## 5. VPC Endpoint
+
+### S3 Gateway Endpoint
+- S3 직접 접근 가능 (인터넷 미사용)
+
+### Rekognition Interface Endpoint
+- Rekognition API 내부망 호출
+
+👉 효과:
+- 보안 강화
+- NAT Gateway 비용 절감
+- AWS 내부 네트워크 사용
+
+---
+
+## 6. 데이터 저장소
+
+### Amazon S3
+- 음식 이미지 저장
+- uploads/ 폴더 구조 사용
+- Lambda 트리거 발생 지점
+
+---
+
+### Amazon RDS (MySQL)
+- food_upload 테이블: 업로드 정보 저장
+- food_label 테이블: Rekognition 결과 저장
+
+---
+
+## 7. EC2 서버
+
+- Spring Boot 기반 API 서버
+- 이미지 업로드 처리
+- RDS 연동
+- 추천 로직 실행
+
+---
+
+## 8. Lambda + Rekognition 파이프라인
+
+1. S3 이미지 업로드 발생
+2. Lambda 자동 실행
+3. Rekognition DetectLabels 호출
+4. 음식 라벨 추출
+5. RDS 저장
+
+---
+
+## 9. 전체 시스템 아키텍처
+
 ```text
-사용자 이미지 업로드
-↓
-EC2 (Flask Web Server)
-↓
-S3 (이미지 저장)
-↓
-Lambda (자동 트리거)
-↓
-AWS Rekognition (이미지 분석)
-↓
-음식 카테고리 추출
-↓
-RDS (데이터 저장)
-↓
-맛집 추천 로직 실행
-↓
-Frontend 결과 페이지 출력
+사용자
+   ↓
+Frontend
+   ↓
+EC2 (Spring Boot Server)
+   ↓
+S3 (Image Storage)
+   ↓
+Lambda Trigger
+   ↓
+AWS Rekognition
+   ↓
+Label Extraction
+   ↓
+RDS (MySQL)
+   ↓
+Recommendation Engine
+   ↓
+Frontend Response
