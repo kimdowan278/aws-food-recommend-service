@@ -14,7 +14,7 @@ AWS Rekognition 기반 음식 사진 맛집 추천 서비스
 # B. 프로젝트 멤버 및 담당 역할
 
 - 김도완 : Frontend(UI/UX) 개발, 웹 페이지 구성 및 API 연동
-- 박영주 : Backend 서버 개발 및 추천 로직 구현 (Flask API)
+- 박영주 : Backend 서버 개발 및 추천 로직 구현 (SpringBoot API)
 - 임나빈 : AWS 클라우드 인프라 구성 (EC2, S3, Lambda), Docker 배포 환경 구축
 
 ---
