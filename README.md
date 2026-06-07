@@ -204,19 +204,22 @@ AWS EC2, S3, Lambda, Rekognition, RDS를 활용하여 서버리스 기반 이미
 ---
 
 ## 2. IAM Role 구성
+AWS 서비스 간 안전한 통신을 위해 IAM Role을 활용하여 권한을 관리하였다.
 
 ### EC2-FoodService-Role
-- S3 Full Access
-- Rekognition Full Access
+Spring Boot 백엔드 서버가 실행되는 EC2 인스턴스에 적용한 역할이다.
+
+- S3 Full Access - 사용자 이미지 업로드 및 조회
+- Rekognition Full Access - Rekognition API 테스트 수행
 - EC2 백엔드 서버 권한 부여
 
 ---
 
 ### Lambda Role (detect-food-tags-role-cnih2vvt)
-- S3 ReadOnly Access
-- Rekognition DetectLabels 권한
-- CloudWatch Logs 권한
-- VPC Access 권한
+- S3 ReadOnly Access - 업로드된 이미지 조회
+- AmazonRekognitionFullAccess - DetectLabels API 호출
+- AWSLambdaBasicExecutionRole - CloudWatch 로그 기록
+- AWSLambdaVPCAccessExecutionRole - VPC Access 권한
 
 ---
 
@@ -227,6 +230,12 @@ AWS EC2, S3, Lambda, Rekognition, RDS를 활용하여 서버리스 기반 이미
 - HTTPS (443)
 - SSH (22)
 - Spring Boot (8080)
+
+### 역할
+
+- 80, 443 : 웹 서비스 접근
+- 8080 : Spring Boot 테스트
+- 22 : SSH 원격 접속
 
 ---
 
@@ -240,56 +249,96 @@ AWS EC2, S3, Lambda, Rekognition, RDS를 활용하여 서버리스 기반 이미
 ## 4. VPC 및 네트워크 구성
 
 - Lambda를 VPC 내부에 배치하여 RDS와 직접 통신
-- Subnet 2개 구성 (Multi-AZ 구조)
+  
+- VPC 정보
+- VPC ID - vpc-0af38138a6879f8b5
+- CIDR - 172.31.0.0/16
+- 유형- Default VPC
+
+- Lambda 연결 서브넷
+- Lambda를 2개의 가용 영역에 연결하여 장애 발생 시에도 서비스 지속이 가능하도록 구성하였다.
+- Lambda 연결 보안그룹 - EC2-Web-SG
+  
+- 서브넷 ID1 - subnet-0774349c0962c3a90	ap-northeast-2a
+- 서브넷 ID2 - subnet-0a47782c5717e7645	ap-northeast-2b
+  
 
 ---
 
 ## 5. VPC Endpoint
 
 ### S3 Gateway Endpoint
-- S3 직접 접근 가능 (인터넷 미사용)
+- S3 직접 접근 가능
 
 ### Rekognition Interface Endpoint
 - Rekognition API 내부망 호출
 
-👉 효과:
+효과:
 - 보안 강화
 - NAT Gateway 비용 절감
 - AWS 내부 네트워크 사용
+- 인터넷 경유 제거
 
 ---
 
-## 6. 데이터 저장소
+## 6. 데이터 저장소 구축
 
 ### Amazon S3
 - 음식 이미지 저장
 - uploads/ 폴더 구조 사용
 - Lambda 트리거 발생 지점
+- Rekognition 분석 대상 제공
 
 ---
 
 ### Amazon RDS (MySQL)
+-음식 분석 결과와 서비스 데이터를 저장하기 위한 관계형 테이터베이스
 - food_upload 테이블: 업로드 정보 저장
 - food_label 테이블: Rekognition 결과 저장
 
+특징:
+- Private Database
+- 인터넷 직접 접근 차단
+- EC2 및 Lambda를 통한 내부 접근만 허용
+
 ---
 
-## 7. EC2 서버
+## 7. EC2 서버환경 구축
 
 - Spring Boot 기반 API 서버
 - 이미지 업로드 처리
-- RDS 연동
+- RDS 연동 데이터 조회
 - 추천 로직 실행
 
 ---
 
 ## 8. Lambda + Rekognition 파이프라인
 
-1. S3 이미지 업로드 발생
-2. Lambda 자동 실행
-3. Rekognition DetectLabels 호출
-4. 음식 라벨 추출
-5. RDS 저장
+1. Lamdbda 함수
+   함수명 - detect-food-labels-monolithic
+   런타임 - Python 3.12
+   IAM Role - detect-food-tags-role-cnih2vvt
+
+2. S3 이벤트 트리거
+   트리거 조건 - S3 Bucket -> uploads/
+   이벤트 종류 - ObjectCreated
+   uploads/ 경로에 이미지 업로드 -> Lambda 자동 실행
+   
+
+3. Reckognition 연동
+   Lambda 함수는 업로드된 이미지를 분석하기 위해 Rekognition DetectLabels API를 호출한다.
+
+  분석 항목
+
+  - 음식 종류
+  - 음식 카테고리
+  - 관련 객체
+
+4. RDS 저장 프로세스
+   1단계 : S3 업로드 이벤트 수신
+   2단계 : Rekognition DetectLabels 호출
+   3단계 : food_upload 테이블 조회
+   4단계 : food_label 테이블 저장
 
 ---
 
