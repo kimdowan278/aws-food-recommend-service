@@ -1,7 +1,7 @@
 # AWS Food Recommendation Service
 Cloud-based food recommendation web service using AWS Rekognition
 
-![메인페이지](docs/test_html.png)
+![메인페이지](docs/main_page.png)
 
 ---
 
@@ -77,6 +77,8 @@ AWS Rekognition 기반 음식 사진 맛집 추천 서비스
 ## 2. 시스템 아키텍처
 
 ![메인페이지](docs/project_diagram.png)
+![메인페이지](docs/project_diagram2.png)
+![메인페이지](docs/project_diagram3.png)
 
 
 ---
@@ -111,6 +113,7 @@ AWS Rekognition 기반 이미지 분석
 # J. 담당 파트별 개발 내역 상세
 
 # 박영주 - 백엔드
+
 ## 1. 백엔드 개발 범위
 
 본 프로젝트의 백엔드는 Spring Boot 기반으로 구현되었으며, AWS 클라우드 서비스와 연동하여 이미지 분석 및 음식 추천 기능을 제공한다.
@@ -196,6 +199,8 @@ AWS Rekognition 기반 이미지 분석
 ---
 
 # 임나빈 - AWS 기반 인프라 구축
+
+AWS 개발 전체 내용 - https://sleet-forger-7ca.notion.site/AWS-3781cdcea3e0803880ebe0304eda58c9
 
 ## 1. 전체 개요
 
