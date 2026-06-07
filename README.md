@@ -114,6 +114,9 @@ AWS Rekognition 기반 이미지 분석
 
 # 박영주 - 백엔드
 
+백엔드 구현 내용 요약 - https://github.com/kimdowan278/aws-food-recommend-service/blob/main/docs/Backend_details.pdf
+백엔드 구현 내용 - https://github.com/kimdowan278/aws-food-recommend-service/blob/main/docs/Backend_full.pdf
+
 ## 1. 백엔드 개발 범위
 
 본 프로젝트의 백엔드는 Spring Boot 기반으로 구현되었으며, AWS 클라우드 서비스와 연동하여 이미지 분석 및 음식 추천 기능을 제공한다.
